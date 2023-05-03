@@ -55,9 +55,10 @@ steps:
   displayName: 'Run tests'
 
 - bash: |
-    export COVERALLS_REPO_TOKEN=$(COVERALLS_REPO_TOKEN)
     coveralls
   displayName: 'Publish to coveralls'
+  env:
+    COVERALLS_REPO_TOKEN: $(COVERALLS_TOKEN)
 
 - task: PublishTestResults@2
   inputs:
