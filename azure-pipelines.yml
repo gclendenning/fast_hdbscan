@@ -84,14 +84,18 @@ stages:
 
         - script: |
             python -m pip install --upgrade pip
+            pip install wheel
             pip install -r requirements.txt
           displayName: 'Install dependencies'
 
         - script: |
             pip install -e .
-          displayName: 'Install package'
+          displayName: 'Install package locally'
         
         - script: |
             python setup.py sdist bdist_wheel
           displayName: 'Build package'
-
+     
+        - bash: |
+            ls -l dist/
+          displayName: 'List dist files'
