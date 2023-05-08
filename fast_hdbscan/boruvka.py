@@ -4,18 +4,18 @@ import numpy as np
 from .disjoint_set import ds_rank_create, ds_find, ds_union_by_rank
 from .numba_kdtree import parallel_tree_query, rdist, point_to_node_lower_bound_rdist
 
-@numba.njit(locals={"i": numba.int64})
+@numba.njit(locals={"i": numba.types.int64})
 def merge_components(disjoint_set, candidate_neighbors, candidate_neighbor_distances, point_components):
     component_edges = {np.int64(0): (np.int64(0), np.int64(1), np.float32(0.0)) for i in range(0)}
 
     # Find the best edges from each component
     for i in range(candidate_neighbors.shape[0]):
-        from_component = point_components[i]
+        from_component = np.int64(point_components[i])
         if from_component in component_edges:
             if candidate_neighbor_distances[i] < component_edges[from_component][2]:
-                component_edges[from_component] = (i, candidate_neighbors[i], candidate_neighbor_distances[i])
+                component_edges[from_component] = (np.int64(i), np.int64(candidate_neighbors[i]), candidate_neighbor_distances[i])
         else:
-            component_edges[from_component] = (i, candidate_neighbors[i], candidate_neighbor_distances[i])
+            component_edges[from_component] = (np.int64(i), np.int64(candidate_neighbors[i]), candidate_neighbor_distances[i])
 
     result = np.empty((len(component_edges), 3), dtype=np.float64)
     result_idx = 0
