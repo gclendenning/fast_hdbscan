@@ -96,7 +96,15 @@ stages:
         - script: |
             python setup.py sdist bdist_wheel
           displayName: 'Build package'
-     
-        - bash: |
-            ls -l dist/
-          displayName: 'List dist files'
+
+        - task: DownloadSecureFile@1
+          name: PYPIRC_CONFIG
+          displayName: 'Download pypirc'
+          inputs:
+            secureFile: 'pypirc'  
+
+        - script: |
+            pip install twine
+            twine upload --repository testpypi --config-file $(PYPIRC_CONFIG.secureFilePath) dist/* 
+          displayName: 'Upload to PyPI'
+
