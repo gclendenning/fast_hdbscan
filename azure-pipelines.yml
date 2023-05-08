@@ -74,8 +74,8 @@ stages:
     jobs:
       - job: BuildArtifacts
         displayName: Build source dists and wheels    
-        pool: 'ubuntu-latest'
-        
+        pool:
+          vmImage: 'ubuntu-latest'
         steps:
         - task: UsePythonVersion@0
           inputs:
