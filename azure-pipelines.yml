@@ -71,6 +71,7 @@ stages:
 
   - stage: BuildPublishArtifact
     dependsOn: RunAllTests
+    condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
     jobs:
       - job: BuildArtifacts
         displayName: Build source dists and wheels    
