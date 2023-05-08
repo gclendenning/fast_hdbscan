@@ -9,7 +9,7 @@ trigger:
     - main
   tags:
     include:
-    - '*'
+    - release-*
 
 stages:
   - stage: RunAllTests
@@ -76,7 +76,7 @@ stages:
 
   - stage: BuildPublishArtifact
     dependsOn: RunAllTests
-    condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/release-')
     jobs:
       - job: BuildArtifacts
         displayName: Build source dists and wheels    
