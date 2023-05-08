@@ -81,6 +81,17 @@ stages:
           inputs:
             versionSpec: '3.10'
           displayName: 'Use Python 3.10'
-        - bash: |
-            echo "In build stage"
-          displayName: 'Testing stages'
+
+        - script: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+          displayName: 'Install dependencies'
+
+        - script: |
+            pip install -e .
+          displayName: 'Install package'
+        
+        - script: |
+            python setup.py sdist bdist_wheel
+          displayName: 'Build package'
+
